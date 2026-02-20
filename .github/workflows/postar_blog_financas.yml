@@ -1,0 +1,39 @@
+
+name: Bot Financas
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  executar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Atualizar pip
+        run: python -m pip install --upgrade pip
+
+      - name: Instalar Dependências
+        run: pip install -r requirements.txt
+
+      - name: Criar token.json a partir do Secret
+        run: echo "${{ secrets.BLOGGER_TOKEN_BASE64 }}" | base64 --decode > token.json
+
+      - name: Rodar Bot de Noticias
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python run_bot.py
