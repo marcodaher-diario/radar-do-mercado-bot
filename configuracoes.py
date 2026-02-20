@@ -2,49 +2,44 @@
 # CONFIGURAÇÕES GERAIS DO BLOG
 # ==========================================
 
-BLOG_ID = "7605688984374445860"
+BLOG_ID = "1114800135976341823"
 
 RSS_FEEDS = [
-    "https://g1.globo.com/rss/g1/",
-    "https://feeds.uol.com.br/home.xml",
-    "https://rss.uol.com.br/feed/noticias.xml",
-    "https://feeds.folha.uol.com.br/emcimadahora/rss091.xml",
-    "https://agenciabrasil.ebc.com.br/rss",
-    "https://feeds.bbci.co.uk/portuguese/rss.xml",
-    "https://www.gazetadopovo.com.br/feed/rss/brasil.xml",
-    "https://reporterbrasil.org.br/feed/",
-    "https://www.cnnbrasil.com.br/feed/",
-    "https://www.estadao.com.br/arc/outboundfeeds/rss/category/brasil/",
-    "https://g1.globo.com/rss/g1/economia/"
+    "https://www.infomoney.com.br/feed/",
+    "https://www.infomoney.com.br/mercados/feed/",
+    "https://www.infomoney.com.br/economia/feed/",
+    "https://www.infomoney.com.br/onde-investir/feed/",
+    "https://www.infomoney.com.br/minhas-financas/feed/",
+    "https://www.infomoney.com.br/business/feed/",
+    "https://br.investing.com/rss/news.rss",
+    "https://www.bcb.gov.br/rss/noticias.xml",
+    "https://conteudo.cvm.gov.br/feed.xml",
+    "https://agenciabrasil.ebc.com.br/rss/economia.xml",
+    "https://blogdoibre.fgv.br/rss/posts"
 ]
 
 # ==========================================
 # TEMAS PARA POSTAGEM
 # ==========================================
 
-PALAVRAS_POLICIAL = [
-    "polícia", "crime", "prisão", "assalto", "homicídio", "tráfico", "investigação", 
-    "corrupção", "suspeito", "acusado", "operação", "flagrante", "violência", "mandado", 
-    "força-tarefa", "custódia", "preventiva", "busca", "inquérito", "sentença", "quadrilha", 
-    "lavagem", "facção", "sigilosa", "confronto", "latrocínio", "feminicídio", "cárcere", 
-    "arsenal", "golpe", "fraude", "perícia", "cibernético", "plantão", "foragido", 
-    "intervenção", "ocorrência"
+PALAVRAS_MERCADO = [
+    "notícias de economia", "economia hoje", "economia brasileira", "cenário econômico", "inflação hoje",
+    "taxa selic hoje", "pib do brasil", "mercado financeiro hoje", "bolsa de valores hoje", "ibovespa hoje",
+    "b3 notícias", "análise de ações", "mercado de capitais", "cotação do dólar", "dólar hoje",
+    "euro hoje", "dólar comercial", "dólar turismo", "previsão do dólar", "mercado cambial"
 ]
 
-PALAVRAS_POLITICA = [
-    "política", "governo", "presidente", "congresso", "senado", "stf", "eleição", "ministro", 
-    "deputado", "senador", "planalto", "judiciário", "Congresso", "Planalto", "Senado", "Oposição", 
-    "Votação", "Plenário", "Constituição", "Decreto", "Reforma", "Parlamentar", "Inquérito", "Eitoral", 
-    "Supremo", "STF", "Impeachment", "Cassação", "Orçamento", "Transparência", "Diplomacia", 
-    "Articulação", "Coligação", "Mandato", "Legislação", "Democracia", "Governabilidade"
+PALAVRAS_INVESTIMENTOS = [
+    "ações para investir", "melhores ações 2026", "ações que pagam dividendos", "dividendos hoje", "small caps promissoras",
+    "onde investir hoje", "renda fixa hoje", "tesouro direto hoje", "cdb vale a pena", "lci lca 2026",
+    "fundos imobiliários hoje", "fii dividendos", "carteira recomendada", "investimentos para iniciantes", "como investir com pouco dinheiro"
 ]
 
-PALAVRAS_ECONOMIA = [
-    "economia", "pib", "dólar", "inflação", "selic", "mercado", "banco", "investimento", 
-    "financeiro", "bolsa", "consumo", "ibovespa", "cotação", "ipca", "juros", "recessão", 
-    "desemprego", "tributária", "impostos", "orçamento", "déficit", "superávit", "fiscal", 
-    "monetária", "crédito", "agronegócio", "exportação", "investimentos", "criptomoedas", 
-    "varejo", "combustíveis"
+PALAVRAS_FINANÇAS = [
+    "como economizar dinheiro", "como sair das dívidas", "cartão de crédito juros", "planejamento financeiro", "educação financeira",
+    "renda extra ideias", "como aumentar renda", "orçamento familiar", "reserva de emergência", "juros do cheque especial",
+    "banco central notícias", "decisões do copom", "cvm notícias", "novas regras financeiras", "reforma tributária",
+    "impostos investimentos", "política econômica"
 ]
 
 # ==========================================
