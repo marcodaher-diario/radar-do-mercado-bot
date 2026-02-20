@@ -35,7 +35,7 @@ PALAVRAS_INVESTIMENTOS = [
     "fundos imobiliários hoje", "fii dividendos", "carteira recomendada", "investimentos para iniciantes", "como investir com pouco dinheiro"
 ]
 
-PALAVRAS_FINANÇAS = [
+PALAVRAS_FINANCAS = [
     "como economizar dinheiro", "como sair das dívidas", "cartão de crédito juros", "planejamento financeiro", "educação financeira",
     "renda extra ideias", "como aumentar renda", "orçamento familiar", "reserva de emergência", "juros do cheque especial",
     "banco central notícias", "decisões do copom", "cvm notícias", "novas regras financeiras", "reforma tributária",
