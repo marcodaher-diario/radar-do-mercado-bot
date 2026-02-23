@@ -33,7 +33,9 @@ jobs:
       - name: Criar token.json a partir do Secret
         run: echo "${{ secrets.BLOGGER_TOKEN_BASE64 }}" | base64 --decode > token.json
 
-      - name: Rodar Bot de Noticias
+      - name: Bot Financas
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
         run: python run_bot.py
