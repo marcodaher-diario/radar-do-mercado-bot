@@ -209,3 +209,9 @@ class ImageEngine:
 
         # 4️⃣ Institucional
         return self._buscar_institucional(tema)
+        
+        print("Tema:", tema)
+        print("RSS imagem:", rss_img)
+        print("Pexels key:", self.pexels_key)
+        print("Unsplash key:", self.unsplash_key)
+
