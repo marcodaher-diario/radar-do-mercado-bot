@@ -33,7 +33,7 @@ jobs:
       - name: Criar token.json a partir do Secret
         run: echo "${{ secrets.BLOGGER_TOKEN_BASE64 }}" | base64 --decode > token.json
 
-      - name: Bot Financas
+      - name: Rodar Bot Financas
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
