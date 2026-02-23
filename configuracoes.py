@@ -23,23 +23,23 @@ RSS_FEEDS = [
 # ==========================================
 
 PALAVRAS_MERCADO = [
-    "notícias de economia", "economia hoje", "economia brasileira", "cenário econômico", "inflação hoje",
-    "taxa selic hoje", "pib do brasil", "mercado financeiro hoje", "bolsa de valores hoje", "ibovespa hoje",
-    "b3 notícias", "análise de ações", "mercado de capitais", "cotação do dólar", "dólar hoje",
-    "euro hoje", "dólar comercial", "dólar turismo", "previsão do dólar", "mercado cambial"
+    "economia", "inflação", "selic", "pib", "mercado", "bolsa",
+    "ibovespa", "b3", "dólar", "euro", "câmbio", "juros",
+    "copom", "banco central"
 ]
 
 PALAVRAS_INVESTIMENTOS = [
-    "ações para investir", "melhores ações 2026", "ações que pagam dividendos", "dividendos hoje", "small caps promissoras",
-    "onde investir hoje", "renda fixa hoje", "tesouro direto hoje", "cdb vale a pena", "lci lca 2026",
-    "fundos imobiliários hoje", "fii dividendos", "carteira recomendada", "investimentos para iniciantes", "como investir com pouco dinheiro"
+    "ações", "dividendos", "small caps", "tesouro",
+    "renda fixa", "cdb", "lci", "lca",
+    "fii", "fundos imobiliários",
+    "carteira", "investir", "investimento"
 ]
 
 PALAVRAS_FINANCAS = [
-    "como economizar dinheiro", "como sair das dívidas", "cartão de crédito juros", "planejamento financeiro", "educação financeira",
-    "renda extra ideias", "como aumentar renda", "orçamento familiar", "reserva de emergência", "juros do cheque especial",
-    "banco central notícias", "decisões do copom", "cvm notícias", "novas regras financeiras", "reforma tributária",
-    "impostos investimentos", "política econômica"
+    "economizar", "dívida", "cartão", "planejamento",
+    "educação financeira", "renda extra",
+    "orçamento", "reserva de emergência",
+    "impostos", "reforma tributária"
 ]
 
 # ==========================================
