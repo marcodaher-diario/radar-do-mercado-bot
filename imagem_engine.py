@@ -83,11 +83,13 @@ class ImageEngine:
         }
 
         r = requests.get(url, headers=headers, params=params)
+        print("Status Pexels:", r.status_code)
 
         if r.status_code != 200:
             return None
 
         data = r.json()
+        print("Total fotos Pexels:", len(data.get("photos", [])))
 
         for foto in data.get("photos", []):
             img_url = foto["src"]["large"]
@@ -115,11 +117,13 @@ class ImageEngine:
         }
 
         r = requests.get(url, params=params)
+        print("Status Unsplash:", r.status_code)
 
         if r.status_code != 200:
             return None
 
         data = r.json()
+        print("Total fotos Unsplash:", len(data.get("results", [])))
 
         for foto in data.get("results", []):
             img_url = foto["urls"]["regular"]
