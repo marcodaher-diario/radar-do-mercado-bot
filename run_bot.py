@@ -28,7 +28,7 @@ from imagem_engine import ImageEngine
 AGENDA_POSTAGENS = {
     "19:55": "mercado",
     "20:15": "investimentos",
-    "20:30": "financas"
+    "20:40": "financas"
 }
 
 JANELA_MINUTOS = 10
