@@ -176,11 +176,13 @@ if __name__ == "__main__":
                 break
 
     if not horario_escolhido:
+        print("Nenhum horário dentro da janela.")
         exit()
 
     noticia = buscar_noticia(tema_escolhido)
 
     if not noticia:
+        print("Nenhuma notícia encontrada.")
         exit()
 
     gemini = GeminiEngine()
