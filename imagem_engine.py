@@ -187,15 +187,6 @@ class ImageEngine:
 
     def obter_imagem(self, noticia, tema):
 
-        print("=== DEBUG IMAGEM ===")
-        print("Tema:", tema)
-        print("Título:", noticia.get("titulo"))
-        print("Imagem RSS:", noticia.get("imagem"))
-        print("PEXELS key existe?", bool(self.pexels_key))
-        print("UNSPLASH key existe?", bool(self.unsplash_key))
-        print("====================")
-
-
         # 1️⃣ RSS
         rss_img = noticia.get("imagem", "")
 
@@ -223,8 +214,3 @@ class ImageEngine:
         # 4️⃣ Institucional
         return self._buscar_institucional(tema)
         
-        print("Tema:", tema)
-        print("RSS imagem:", rss_img)
-        print("Pexels key:", self.pexels_key)
-        print("Unsplash key:", self.unsplash_key)
-
