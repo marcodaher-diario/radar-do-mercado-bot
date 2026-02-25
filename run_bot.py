@@ -245,5 +245,6 @@ if __name__ == "__main__":
     ).execute()
 
     registrar_postagem(data_hoje, horario_escolhido)
+    registrar_link_publicado(noticia["link"])
 
     print("Post publicado com sucesso.")
