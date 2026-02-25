@@ -73,6 +73,26 @@ def registrar_postagem(data_str, horario_agenda):
     with open(ARQUIVO_CONTROLE_DIARIO, "a", encoding="utf-8") as f:
         f.write(f"{data_str}|{horario_agenda}\n")
 
+# ==========================================================
+# CONTROLE DE REPETIÇÃO DE LINK
+# ==========================================================
+
+def link_ja_publicado(link):
+    if not os.path.exists(ARQUIVO_POSTS_PUBLICADOS):
+        return False
+
+    with open(ARQUIVO_POSTS_PUBLICADOS, "r", encoding="utf-8") as f:
+        for linha in f:
+            if linha.strip() == link:
+                return True
+
+    return False
+
+
+def registrar_link_publicado(link):
+    with open(ARQUIVO_POSTS_PUBLICADOS, "a", encoding="utf-8") as f:
+        f.write(f"{link}\n")
+
 
 # ==========================================================
 # VERIFICAR TEMA
@@ -141,6 +161,9 @@ def buscar_noticia(tipo):
                 continue
 
             if verificar_assunto(titulo, resumo) != tipo:
+                continue
+
+            if link_ja_publicado(link):
                 continue
 
             return {
