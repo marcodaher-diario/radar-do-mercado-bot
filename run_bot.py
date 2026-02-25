@@ -33,6 +33,7 @@ AGENDA_POSTAGENS = {
 
 JANELA_MINUTOS = 15
 ARQUIVO_CONTROLE_DIARIO = "controle_diario.txt"
+ARQUIVO_POSTS_PUBLICADOS = "posts_publicados.txt"
 
 
 # ==========================================================
