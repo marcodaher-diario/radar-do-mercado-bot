@@ -150,10 +150,6 @@ def gerar_tags_seo(titulo, texto):
 
 def buscar_noticia(tipo):
 
-    # ===============================
-    # PESOS DIFERENTES POR TEMA
-    # ===============================
-
     pesos_por_tema = {
 
         "mercado": {
@@ -222,10 +218,7 @@ def buscar_noticia(tipo):
             if not titulo or not link:
                 continue
 
-            # ===============================
-            # FILTRO DE DATA (24h)
-            # ===============================
-
+            # Filtro 24h
             data_publicacao = None
 
             if hasattr(entry, "published"):
@@ -246,10 +239,7 @@ def buscar_noticia(tipo):
             if link_ja_publicado(link):
                 continue
 
-            # ===============================
             # CÁLCULO DE SCORE
-            # ===============================
-
             conteudo = f"{titulo} {resumo}".lower()
             score = 0
 
@@ -257,7 +247,6 @@ def buscar_noticia(tipo):
                 if palavra in conteudo:
                     score += peso
 
-            # bônus leve para recência
             if data_publicacao:
                 minutos_passados = (agora - data_publicacao).total_seconds() / 60
                 bonus_recencia = max(0, 1000 - minutos_passados) / 1000
@@ -273,10 +262,6 @@ def buscar_noticia(tipo):
 
     if not noticias_validas:
         return None
-
-    # ===============================
-    # ESCOLHE A MAIOR PONTUAÇÃO
-    # ===============================
 
     noticia_escolhida = max(noticias_validas, key=lambda x: x["score"])
 
