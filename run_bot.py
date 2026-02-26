@@ -150,25 +150,64 @@ def gerar_tags_seo(titulo, texto):
 
 def buscar_noticia(tipo):
 
-    palavras_peso = {
-        "copom": 10,
-        "selic": 9,
-        "inflação": 8,
-        "banco central": 8,
-        "pib": 7,
-        "juros": 7,
-        "dólar": 6,
-        "bolsa": 6,
-        "fii": 6,
-        "fiis": 6,
-        "recessão": 6,
-        "crise": 6,
-        "recorde": 5,
-        "alta": 3,
-        "queda": 3
+    # ===============================
+    # PESOS DIFERENTES POR TEMA
+    # ===============================
+
+    pesos_por_tema = {
+
+        "mercado": {
+            "copom": 12,
+            "selic": 10,
+            "banco central": 9,
+            "inflação": 8,
+            "pib": 8,
+            "juros": 7,
+            "recessão": 7,
+            "crise": 6,
+            "dólar": 6,
+            "bolsa": 5,
+            "recorde": 4,
+            "alta": 2,
+            "queda": 2
+        },
+
+        "investimentos": {
+            "fii": 12,
+            "fiis": 12,
+            "fundo imobiliário": 10,
+            "dividendos": 9,
+            "ações": 9,
+            "bolsa": 8,
+            "ibovespa": 8,
+            "dólar": 6,
+            "selic": 5,
+            "juros": 5,
+            "alta": 3,
+            "queda": 3,
+            "recorde": 4
+        },
+
+        "financas": {
+            "inflação": 12,
+            "juros": 10,
+            "dólar": 9,
+            "selic": 8,
+            "banco central": 8,
+            "copom": 7,
+            "pib": 7,
+            "crise": 6,
+            "endividamento": 6,
+            "alta": 3,
+            "queda": 3,
+            "recorde": 4
+        }
     }
 
+    palavras_peso = pesos_por_tema.get(tipo, {})
+
     noticias_validas = []
+    agora = datetime.utcnow()
 
     for feed_url in RSS_FEEDS:
         feed = feedparser.parse(feed_url)
@@ -183,8 +222,12 @@ def buscar_noticia(tipo):
             if not titulo or not link:
                 continue
 
-            # Filtro de data (24h)
+            # ===============================
+            # FILTRO DE DATA (24h)
+            # ===============================
+
             data_publicacao = None
+
             if hasattr(entry, "published"):
                 try:
                     data_publicacao = parsedate_to_datetime(entry.published)
@@ -194,7 +237,6 @@ def buscar_noticia(tipo):
                     pass
 
             if data_publicacao:
-                agora = datetime.utcnow()
                 if (agora - data_publicacao).days > 1:
                     continue
 
@@ -203,6 +245,47 @@ def buscar_noticia(tipo):
 
             if link_ja_publicado(link):
                 continue
+
+            # ===============================
+            # CÁLCULO DE SCORE
+            # ===============================
+
+            conteudo = f"{titulo} {resumo}".lower()
+            score = 0
+
+            for palavra, peso in palavras_peso.items():
+                if palavra in conteudo:
+                    score += peso
+
+            # bônus leve para recência
+            if data_publicacao:
+                minutos_passados = (agora - data_publicacao).total_seconds() / 60
+                bonus_recencia = max(0, 1000 - minutos_passados) / 1000
+                score += bonus_recencia
+
+            noticias_validas.append({
+                "titulo": titulo,
+                "texto": resumo,
+                "link": link,
+                "imagem": imagem,
+                "score": score
+            })
+
+    if not noticias_validas:
+        return None
+
+    # ===============================
+    # ESCOLHE A MAIOR PONTUAÇÃO
+    # ===============================
+
+    noticia_escolhida = max(noticias_validas, key=lambda x: x["score"])
+
+    return {
+        "titulo": noticia_escolhida["titulo"],
+        "texto": noticia_escolhida["texto"],
+        "link": noticia_escolhida["link"],
+        "imagem": noticia_escolhida["imagem"]
+    }
 
             # ===============================
             # CÁLCULO DE SCORE EDITORIAL
