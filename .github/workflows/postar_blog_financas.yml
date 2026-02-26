@@ -5,7 +5,21 @@ on:
     - cron: '30 13 * * *'  # 10:30 Brasil
     - cron: '30 17 * * *'  # 14:30 Brasil
     - cron: '30 21 * * *'  # 18:30 Brasil
+
   workflow_dispatch:
+    inputs:
+      test_mode:
+        description: "Ativar modo teste?"
+        required: false
+        default: "false"
+      test_tema:
+        description: "Tema para teste (mercado, investimentos, financas)"
+        required: false
+        default: "mercado"
+      test_publicar:
+        description: "Publicar ao vivo? (true ou false)"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -39,6 +53,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
+          TEST_MODE: ${{ github.event.inputs.test_mode }}
+          TEST_TEMA: ${{ github.event.inputs.test_tema }}
+          TEST_PUBLICAR: ${{ github.event.inputs.test_publicar }}
         run: python run_bot.py
 
       - name: Commitar arquivos de controle (seguro)
@@ -46,7 +63,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Adiciona apenas arquivos de controle se existirem
           [ -f posts_publicados.txt ] && git add posts_publicados.txt
           [ -f controle_diario.txt ] && git add controle_diario.txt
           [ -f controle_imagens.txt ] && git add controle_imagens.txt
