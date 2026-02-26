@@ -6,7 +6,7 @@ import feedparser
 from datetime import datetime, timedelta
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-from email.utils import parsedate_to_datetime  # 🔒 NOVO IMPORT
+from email.utils import parsedate_to_datetime
 
 from configuracoes import (
     BLOG_ID,
@@ -116,7 +116,7 @@ def verificar_assunto(titulo, texto):
 
 
 # ==========================================================
-# GERAR TAGS SEO (CÓDIGO ORIGINAL FUNCIONANDO)
+# GERAR TAGS SEO
 # ==========================================================
 
 def gerar_tags_seo(titulo, texto):
@@ -124,28 +124,32 @@ def gerar_tags_seo(titulo, texto):
     conteudo = f"{titulo} {texto[:100]}"
     palavras = re.findall(r'\b\w{4,}\b', conteudo.lower())
     tags = []
+
     for p in palavras:
         if p not in stopwords and p not in tags:
             tags.append(p.capitalize())
     
     tags_fixas = ["Finanças", "Investimentos", "Marco Daher"]
+
     for tf in tags_fixas:
         if tf not in tags:
             tags.append(tf)
 
     resultado = []
     tamanho_atual = 0
+
     for tag in tags:
         if tamanho_atual + len(tag) + 2 <= 200:
             resultado.append(tag)
             tamanho_atual += len(tag) + 2
         else:
             break
+
     return resultado
 
 
 # ==========================================================
-# BUSCAR NOTÍCIA (VERSÃO BLINDADA)
+# BUSCAR NOTÍCIA COM RANKING POR TEMA
 # ==========================================================
 
 def buscar_noticia(tipo):
@@ -201,7 +205,6 @@ def buscar_noticia(tipo):
     }
 
     palavras_peso = pesos_por_tema.get(tipo, {})
-
     noticias_validas = []
     agora = datetime.utcnow()
 
@@ -218,7 +221,6 @@ def buscar_noticia(tipo):
             if not titulo or not link:
                 continue
 
-            # Filtro 24h
             data_publicacao = None
 
             if hasattr(entry, "published"):
@@ -239,7 +241,6 @@ def buscar_noticia(tipo):
             if link_ja_publicado(link):
                 continue
 
-            # CÁLCULO DE SCORE
             conteudo = f"{titulo} {resumo}".lower()
             score = 0
 
@@ -272,43 +273,59 @@ def buscar_noticia(tipo):
         "imagem": noticia_escolhida["imagem"]
     }
 
-            # ===============================
-            # CÁLCULO DE SCORE EDITORIAL
-            # ===============================
 
-            conteudo = f"{titulo} {resumo}".lower()
-            score = 0
+# ==========================================================
+# MODO TESTE
+# ==========================================================
 
-            for palavra, peso in palavras_peso.items():
-                if palavra in conteudo:
-                    score += peso
+def executar_modo_teste(tema_forcado=None, publicar=False):
 
-            # bônus leve para mais recente
-            if data_publicacao:
-                minutos_passados = (datetime.utcnow() - data_publicacao).total_seconds() / 60
-                bonus_recencia = max(0, 1000 - minutos_passados) / 1000
-                score += bonus_recencia
+    print("=== MODO TESTE ATIVADO ===")
 
-            noticias_validas.append({
-                "titulo": titulo,
-                "texto": resumo,
-                "link": link,
-                "imagem": imagem,
-                "score": score
-            })
+    if not tema_forcado:
+        tema_forcado = "mercado"
 
-    if not noticias_validas:
-        return None
+    noticia = buscar_noticia(tema_forcado)
 
-    # Escolhe a maior pontuação
-    noticia_escolhida = max(noticias_validas, key=lambda x: x["score"])
+    if not noticia:
+        print("Nenhuma notícia encontrada para teste.")
+        return
 
-    return {
-        "titulo": noticia_escolhida["titulo"],
-        "texto": noticia_escolhida["texto"],
-        "link": noticia_escolhida["link"],
-        "imagem": noticia_escolhida["imagem"]
+    gemini = GeminiEngine()
+    imagem_engine = ImageEngine()
+
+    texto_ia = gemini.gerar_analise_economica(
+        noticia["titulo"],
+        noticia["texto"],
+        tema_forcado
+    )
+
+    imagem_final = imagem_engine.obter_imagem(noticia, tema_forcado)
+    tags = gerar_tags_seo(noticia["titulo"], texto_ia)
+
+    dados = {
+        "titulo": f"[TESTE] {noticia['titulo']}",
+        "imagem": imagem_final,
+        "texto_completo": texto_ia,
+        "assinatura": BLOCO_FIXO_FINAL
     }
+
+    html = obter_esqueleto_html(dados)
+
+    service = Credentials.from_authorized_user_file("token.json")
+    service = build("blogger", "v3", credentials=service)
+
+    service.posts().insert(
+        blogId=BLOG_ID,
+        body={
+            "title": dados["titulo"],
+            "content": html,
+            "labels": tags
+        },
+        isDraft=not publicar
+    ).execute()
+
+    print("Postagem de teste concluída.")
 
 
 # ==========================================================
@@ -316,6 +333,19 @@ def buscar_noticia(tipo):
 # ==========================================================
 
 if __name__ == "__main__":
+
+    # VERIFICA MODO TESTE
+    if os.getenv("TEST_MODE") == "true":
+
+        tema_teste = os.getenv("TEST_TEMA", "mercado")
+        publicar_teste = os.getenv("TEST_PUBLICAR", "false") == "true"
+
+        executar_modo_teste(
+            tema_forcado=tema_teste,
+            publicar=publicar_teste
+        )
+
+        exit()
 
     agora = obter_horario_brasilia()
     min_atual = agora.hour * 60 + agora.minute
@@ -354,7 +384,6 @@ if __name__ == "__main__":
     )
 
     imagem_final = imagem_engine.obter_imagem(noticia, tema_escolhido)
-
     tags = gerar_tags_seo(noticia["titulo"], texto_ia)
 
     dados = {
