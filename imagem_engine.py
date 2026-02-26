@@ -23,7 +23,7 @@ class ImageEngine:
     # CONTROLE DE REPETIÇÃO POR TEMA (30 DIAS)
     # ==========================================================
 
-        def _imagem_usada_recentemente(self, tema, url):
+    def _imagem_usada_recentemente(self, tema, url):
         if not os.path.exists(ARQUIVO_CONTROLE_IMAGENS):
             return False
 
@@ -56,6 +56,7 @@ class ImageEngine:
                     return True
 
         return False
+
 
     def _registrar_imagem(self, tema, url):
         hoje = datetime.utcnow().strftime("%Y-%m-%d")
@@ -169,7 +170,10 @@ class ImageEngine:
         if os.path.exists(ARQUIVO_CONTROLE_IMAGENS):
             with open(ARQUIVO_CONTROLE_IMAGENS, "r", encoding="utf-8") as f:
                 linhas = [l.strip().split("|") for l in f.readlines()]
-                for data_str, tema_salvo, url_salva in reversed(linhas):
+                for partes in reversed(linhas):
+                    if len(partes) != 3:
+                        continue
+                    data_str, tema_salvo, url_salva = partes
                     if tema_salvo == tema and "assets" in url_salva:
                         ultimo_usado = os.path.basename(url_salva)
                         break
@@ -191,7 +195,6 @@ class ImageEngine:
         self._registrar_imagem(tema, url_publica)
 
         return url_publica
-
 
 
     # ==========================================================
@@ -226,4 +229,3 @@ class ImageEngine:
 
         # 4️⃣ Institucional
         return self._buscar_institucional(tema)
-        
