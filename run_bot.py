@@ -304,7 +304,7 @@ def executar_modo_teste(tema_forcado=None, publicar=False):
     tags = gerar_tags_seo(noticia["titulo"], texto_ia)
 
     dados = {
-        "titulo": f"[TESTE] {noticia['titulo']}",
+        "titulo": f" {noticia['titulo']}",
         "imagem": imagem_final,
         "texto_completo": texto_ia,
         "assinatura": BLOCO_FIXO_FINAL
