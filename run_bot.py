@@ -150,10 +150,29 @@ def gerar_tags_seo(titulo, texto):
 
 def buscar_noticia(tipo):
 
+    palavras_peso = {
+        "copom": 10,
+        "selic": 9,
+        "inflação": 8,
+        "banco central": 8,
+        "pib": 7,
+        "juros": 7,
+        "dólar": 6,
+        "bolsa": 6,
+        "fii": 6,
+        "fiis": 6,
+        "recessão": 6,
+        "crise": 6,
+        "recorde": 5,
+        "alta": 3,
+        "queda": 3
+    }
+
+    noticias_validas = []
+
     for feed_url in RSS_FEEDS:
         feed = feedparser.parse(feed_url)
 
-        # 🔒 Analisa apenas os 10 itens mais recentes
         for entry in feed.entries[:10]:
 
             titulo = entry.get("title", "")
@@ -164,21 +183,18 @@ def buscar_noticia(tipo):
             if not titulo or not link:
                 continue
 
-            # 🔒 Ignorar notícia com mais de 24h
+            # Filtro de data (24h)
             data_publicacao = None
             if hasattr(entry, "published"):
                 try:
                     data_publicacao = parsedate_to_datetime(entry.published)
+                    if data_publicacao.tzinfo is not None:
+                        data_publicacao = data_publicacao.astimezone(tz=None).replace(tzinfo=None)
                 except:
                     pass
 
             if data_publicacao:
-                # Converte para UTC naive para evitar erro de timezone
-                if data_publicacao.tzinfo is not None:
-                    data_publicacao = data_publicacao.astimezone(tz=None).replace(tzinfo=None)
-            
                 agora = datetime.utcnow()
-            
                 if (agora - data_publicacao).days > 1:
                     continue
 
@@ -188,14 +204,43 @@ def buscar_noticia(tipo):
             if link_ja_publicado(link):
                 continue
 
-            return {
+            # ===============================
+            # CÁLCULO DE SCORE EDITORIAL
+            # ===============================
+
+            conteudo = f"{titulo} {resumo}".lower()
+            score = 0
+
+            for palavra, peso in palavras_peso.items():
+                if palavra in conteudo:
+                    score += peso
+
+            # bônus leve para mais recente
+            if data_publicacao:
+                minutos_passados = (datetime.utcnow() - data_publicacao).total_seconds() / 60
+                bonus_recencia = max(0, 1000 - minutos_passados) / 1000
+                score += bonus_recencia
+
+            noticias_validas.append({
                 "titulo": titulo,
                 "texto": resumo,
                 "link": link,
-                "imagem": imagem
-            }
+                "imagem": imagem,
+                "score": score
+            })
 
-    return None
+    if not noticias_validas:
+        return None
+
+    # Escolhe a maior pontuação
+    noticia_escolhida = max(noticias_validas, key=lambda x: x["score"])
+
+    return {
+        "titulo": noticia_escolhida["titulo"],
+        "texto": noticia_escolhida["texto"],
+        "link": noticia_escolhida["link"],
+        "imagem": noticia_escolhida["imagem"]
+    }
 
 
 # ==========================================================
