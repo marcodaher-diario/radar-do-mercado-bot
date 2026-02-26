@@ -6,6 +6,7 @@ import feedparser
 from datetime import datetime, timedelta
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
+from email.utils import parsedate_to_datetime  # 🔒 NOVO IMPORT
 
 from configuracoes import (
     BLOG_ID,
@@ -72,6 +73,7 @@ def ja_postou(data_str, horario_agenda):
 def registrar_postagem(data_str, horario_agenda):
     with open(ARQUIVO_CONTROLE_DIARIO, "a", encoding="utf-8") as f:
         f.write(f"{data_str}|{horario_agenda}\n")
+
 
 # ==========================================================
 # CONTROLE DE REPETIÇÃO DE LINK
@@ -143,7 +145,7 @@ def gerar_tags_seo(titulo, texto):
 
 
 # ==========================================================
-# BUSCAR NOTÍCIA
+# BUSCAR NOTÍCIA (VERSÃO BLINDADA)
 # ==========================================================
 
 def buscar_noticia(tipo):
@@ -151,7 +153,9 @@ def buscar_noticia(tipo):
     for feed_url in RSS_FEEDS:
         feed = feedparser.parse(feed_url)
 
-        for entry in feed.entries:
+        # 🔒 Analisa apenas os 10 itens mais recentes
+        for entry in feed.entries[:10]:
+
             titulo = entry.get("title", "")
             resumo = entry.get("summary", "")
             link = entry.get("link", "")
@@ -159,6 +163,19 @@ def buscar_noticia(tipo):
 
             if not titulo or not link:
                 continue
+
+            # 🔒 Ignorar notícia com mais de 24h
+            data_publicacao = None
+            if hasattr(entry, "published"):
+                try:
+                    data_publicacao = parsedate_to_datetime(entry.published)
+                except:
+                    pass
+
+            if data_publicacao:
+                agora = datetime.utcnow()
+                if (agora - data_publicacao).days > 1:
+                    continue
 
             if verificar_assunto(titulo, resumo) != tipo:
                 continue
@@ -223,11 +240,11 @@ if __name__ == "__main__":
     tags = gerar_tags_seo(noticia["titulo"], texto_ia)
 
     dados = {
-    "titulo": noticia["titulo"],
-    "imagem": imagem_final,
-    "texto_completo": texto_ia,
-    "assinatura": BLOCO_FIXO_FINAL
-}
+        "titulo": noticia["titulo"],
+        "imagem": imagem_final,
+        "texto_completo": texto_ia,
+        "assinatura": BLOCO_FIXO_FINAL
+    }
 
     html = obter_esqueleto_html(dados)
 
