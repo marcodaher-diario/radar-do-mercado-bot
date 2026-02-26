@@ -45,7 +45,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       
-          git add .
+          # Adiciona apenas arquivos de controle se existirem
+          [ -f posts_publicados.txt ] && git add posts_publicados.txt
+          [ -f controle_diario.txt ] && git add controle_diario.txt
+          [ -f controle_imagens.txt ] && git add controle_imagens.txt
       
           if git diff --staged --quiet; then
             echo "Nenhuma alteração para commit."
