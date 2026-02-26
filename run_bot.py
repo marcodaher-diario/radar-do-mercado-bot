@@ -28,7 +28,7 @@ from imagem_engine import ImageEngine
 
 AGENDA_POSTAGENS = {
     "22:55": "mercado",
-    "23:00": "investimentos",
+    "23:05": "investimentos",
     "22:45": "financas"
 }
 
