@@ -24,25 +24,38 @@ class ImageEngine:
     # ==========================================================
 
     def _imagem_usada_recentemente(self, tema, url):
-        if not os.path.exists(ARQUIVO_CONTROLE_IMAGENS):
-            return False
-
-        hoje = datetime.utcnow()
-
-        with open(ARQUIVO_CONTROLE_IMAGENS, "r", encoding="utf-8") as f:
-            for linha in f:
-                data_str, tema_salvo, url_salva = linha.strip().split("|")
-
-                if tema_salvo != tema:
-                    continue
-
-                data_img = datetime.strptime(data_str, "%Y-%m-%d")
-
-                if url_salva == url and (hoje - data_img).days < DIAS_BLOQUEIO:
-                    return True
-
+    if not os.path.exists(ARQUIVO_CONTROLE_IMAGENS):
         return False
 
+    hoje = datetime.utcnow()
+
+    with open(ARQUIVO_CONTROLE_IMAGENS, "r", encoding="utf-8") as f:
+        for linha in f:
+            linha = linha.strip()
+
+            # 🔒 Ignora linhas vazias ou inválidas
+            if not linha or "|" not in linha:
+                continue
+
+            partes = linha.split("|")
+
+            if len(partes) != 3:
+                continue
+
+            data_str, tema_salvo, url_salva = partes
+
+            if tema_salvo != tema:
+                continue
+
+            try:
+                data_img = datetime.strptime(data_str, "%Y-%m-%d")
+            except:
+                continue
+
+            if url_salva == url and (hoje - data_img).days < DIAS_BLOQUEIO:
+                return True
+
+    return False
 
     def _registrar_imagem(self, tema, url):
         hoje = datetime.utcnow().strftime("%Y-%m-%d")
