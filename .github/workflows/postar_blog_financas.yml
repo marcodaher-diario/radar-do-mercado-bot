@@ -45,11 +45,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add posts_publicados.txt imagens_usadas.txt
+          git add posts_publicados.txt imagens_usadas.txt controle_diario.txt
 
           if git diff --staged --quiet; then
             echo "Nenhuma alteração para commit."
           else
-            git commit -m "Atualiza controle de posts e imagens"
+            git commit -m "Atualiza controle de posts, imagens e agenda"
             git push
           fi
