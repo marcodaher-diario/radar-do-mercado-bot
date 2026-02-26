@@ -1,4 +1,3 @@
-
 name: Bot Financas
 
 on:
@@ -39,3 +38,18 @@ jobs:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
         run: python run_bot.py
+
+      # NOVA ETAPA — Commit automático dos arquivos de controle
+      - name: Commitar arquivos atualizados
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add posts_publicados.txt imagens_usadas.txt
+
+          if git diff --staged --quiet; then
+            echo "Nenhuma alteração para commit."
+          else
+            git commit -m "Atualiza controle de posts e imagens"
+            git push
+          fi
