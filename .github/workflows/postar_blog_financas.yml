@@ -2,12 +2,9 @@ name: Bot Financas
 
 on:
   schedule:
-    # 10:30 Mercado
-    - cron: '30 10 * * *'
-    # 14:30 Investimentos
-    - cron: '30 14 * * *'
-    # 18:30 Finanças
-    - cron: '30 18 * * *'
+    - cron: '30 13 * * *'  # 10:30 Brasil
+    - cron: '30 17 * * *'  # 14:30 Brasil
+    - cron: '30 21 * * *'  # 18:30 Brasil
   workflow_dispatch:
 
 permissions:
