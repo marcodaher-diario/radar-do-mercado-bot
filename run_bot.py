@@ -173,7 +173,12 @@ def buscar_noticia(tipo):
                     pass
 
             if data_publicacao:
+                # Converte para UTC naive para evitar erro de timezone
+                if data_publicacao.tzinfo is not None:
+                    data_publicacao = data_publicacao.astimezone(tz=None).replace(tzinfo=None)
+            
                 agora = datetime.utcnow()
+            
                 if (agora - data_publicacao).days > 1:
                     continue
 
