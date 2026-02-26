@@ -11,6 +11,14 @@ ARQUIVO_CONTROLE_IMAGENS = "controle_imagens.txt"
 PASTA_ASSETS = "assets"
 DIAS_BLOQUEIO = 30
 
+# 🔒 Palavras proibidas para evitar imagens fora de contexto financeiro
+PALAVRAS_PROIBIDAS = [
+    "beach", "praia", "sea", "ocean", "mar",
+    "nature", "forest", "mountain", "travel",
+    "tourism", "holiday", "sunset", "landscape",
+    "food", "restaurant", "people smiling"
+]
+
 
 class ImageEngine:
 
@@ -33,7 +41,6 @@ class ImageEngine:
             for linha in f:
                 linha = linha.strip()
 
-                # Ignora linhas vazias ou inválidas
                 if not linha or "|" not in linha:
                     continue
 
@@ -66,6 +73,18 @@ class ImageEngine:
 
 
     # ==========================================================
+    # FILTRO SEMÂNTICO BÁSICO
+    # ==========================================================
+
+    def _imagem_relevante(self, url):
+        url_lower = url.lower()
+        for palavra in PALAVRAS_PROIBIDAS:
+            if palavra in url_lower:
+                return False
+        return True
+
+
+    # ==========================================================
     # VERIFICAR TAMANHO RSS (>= 600px)
     # ==========================================================
 
@@ -80,20 +99,38 @@ class ImageEngine:
 
 
     # ==========================================================
+    # QUERY INTELIGENTE POR TEMA
+    # ==========================================================
+
+    def _gerar_query_por_tema(self, tema):
+
+        if tema == "mercado":
+            return "mercado financeiro bolsa de valores gráfico ações economia Brasil"
+
+        elif tema == "investimentos":
+            return "investimentos ações renda fixa análise financeira economia Brasil"
+
+        elif tema == "financas":
+            return "finanças economia inflação dinheiro política monetária Brasil"
+
+        else:
+            return "economia mercado financeiro Brasil"
+
+
+    # ==========================================================
     # BUSCA PEXELS
     # ==========================================================
 
     def _buscar_pexels(self, query, tema):
 
         headers = {"Authorization": self.pexels_key}
-
         url = "https://api.pexels.com/v1/search"
 
         params = {
             "query": query,
             "orientation": "landscape",
             "size": "large",
-            "per_page": 10
+            "per_page": 15
         }
 
         r = requests.get(url, headers=headers, params=params)
@@ -107,6 +144,9 @@ class ImageEngine:
 
         for foto in data.get("photos", []):
             img_url = foto["src"]["large"]
+
+            if not self._imagem_relevante(img_url):
+                continue
 
             if not self._imagem_usada_recentemente(tema, img_url):
                 self._registrar_imagem(tema, img_url)
@@ -126,7 +166,7 @@ class ImageEngine:
         params = {
             "query": query,
             "orientation": "landscape",
-            "per_page": 10,
+            "per_page": 15,
             "client_id": self.unsplash_key
         }
 
@@ -141,6 +181,9 @@ class ImageEngine:
 
         for foto in data.get("results", []):
             img_url = foto["urls"]["regular"]
+
+            if not self._imagem_relevante(img_url):
+                continue
 
             if not self._imagem_usada_recentemente(tema, img_url):
                 self._registrar_imagem(tema, img_url)
@@ -190,7 +233,7 @@ class ImageEngine:
 
         caminho_relativo = f"{PASTA_ASSETS}/{tema}/{proximo}"
 
-        url_publica = f"https://marcodaher-diario.github.io/diario-noticias-bot/{caminho_relativo}"
+        url_publica = f"https://marcodaher-diario.github.io/radar-do-mercado-bot/{caminho_relativo}"
 
         self._registrar_imagem(tema, url_publica)
 
@@ -203,29 +246,24 @@ class ImageEngine:
 
     def obter_imagem(self, noticia, tema):
 
-        # 1️⃣ RSS
         rss_img = noticia.get("imagem", "")
 
         if rss_img and self._rss_valida(rss_img):
-            if not self._imagem_usada_recentemente(tema, rss_img):
-                self._registrar_imagem(tema, rss_img)
-                return rss_img
+            if self._imagem_relevante(rss_img):
+                if not self._imagem_usada_recentemente(tema, rss_img):
+                    self._registrar_imagem(tema, rss_img)
+                    return rss_img
 
-        # Query refinada Brasil
-        titulo = noticia.get("titulo", "")
-        query = f"{tema} Brasil {titulo}"
+        query = self._gerar_query_por_tema(tema)
 
-        # 2️⃣ Pexels
         if self.pexels_key:
             img = self._buscar_pexels(query, tema)
             if img:
                 return img
 
-        # 3️⃣ Unsplash
         if self.unsplash_key:
             img = self._buscar_unsplash(query, tema)
             if img:
                 return img
 
-        # 4️⃣ Institucional
         return self._buscar_institucional(tema)
