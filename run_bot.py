@@ -27,12 +27,12 @@ from imagem_engine import ImageEngine
 # ==========================================================
 
 AGENDA_POSTAGENS = {
-    "10:30": "mercado",
-    "14:30": "investimentos",
-    "18:30": "financas"
+    "10:00": "mercado",
+    "14:00": "investimentos",
+    "18:00": "financas"
 }
 
-JANELA_MINUTOS = 15
+JANELA_MINUTOS = 59
 ARQUIVO_CONTROLE_DIARIO = "controle_diario.txt"
 ARQUIVO_POSTS_PUBLICADOS = "posts_publicados.txt"
 
