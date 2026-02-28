@@ -2,9 +2,9 @@ name: Bot Financas
 
 on:
   schedule:
-    - cron: '30 13 * * *'  # 10:30 Brasil
-    - cron: '30 17 * * *'  # 14:30 Brasil
-    - cron: '30 21 * * *'  # 18:30 Brasil
+    - cron: '0 13 * * *'  # 10:00 Brasil
+    - cron: '0 17 * * *'  # 14:00 Brasil
+    - cron: '0 21 * * *'  # 18:00 Brasil
 
   workflow_dispatch:
     inputs:
