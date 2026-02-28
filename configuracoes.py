@@ -23,23 +23,28 @@ RSS_FEEDS = [
 # ==========================================
 
 PALAVRAS_MERCADO = [
-    "economia", "inflação", "selic", "pib", "mercado", "bolsa",
-    "ibovespa", "b3", "dólar", "euro", "câmbio", "juros",
-    "copom", "banco central"
+    "economia", "inflação", "selic", "pib", "mercado", "bolsa", "ibovespa", "b3", "dólar", 
+    "euro", "câmbio", "juros", "copom", "banco central", "fed", "fomc", "eua", "china", 
+    "commodities", "petróleo", "minério", "wall street", "nasdaq", "nyse", "arcabouço", 
+    "fiscal", "déficit", "superávit", "arrecadação", "congresso", "ministério da fazenda", 
+    "haddad", "tesouro nacional"
 ]
 
 PALAVRAS_INVESTIMENTOS = [
-    "ações", "dividendos", "small caps", "tesouro",
-    "renda fixa", "cdb", "lci", "lca",
-    "fii", "fundos imobiliários",
-    "carteira", "investir", "investimento"
+    "ações", "dividendos", "small caps", "tesouro", "renda fixa", "cdb", "lci", "lca",
+    "fii", "fundos imobiliários", "carteira", "investir", "investimento", "data com", 
+    "data ex", "jcp", "bonificação", "rendimentos", "anúncio de dividendos", "pagamento", 
+    "ipo", "opa", "follow-on", "fusão", "aquisição", "balanço trimestral", "lucro líquido", 
+    "prejuízo", "recomendação", "preço-alvo", "compra", "venda"
 ]
 
 PALAVRAS_FINANCAS = [
-    "economizar", "dívida", "cartão", "planejamento",
-    "educação financeira", "renda extra",
-    "orçamento", "reserva de emergência",
-    "impostos", "reforma tributária"
+    "economizar", "dívida", "cartão", "planejamento", "educação financeira", "renda extra",
+    "orçamento", "reserva de emergência", "impostos", "reforma tributária","serasa", "spc", 
+    "renegociação", "desenrola", "nome sujo", "fgts", "pispasep", "abono", "restituição", 
+    "irpf", "poupança", "tesouro direto", "taxa selic", "consumo", "varejo", "preços", 
+    "cesta básica", "financiamento", "empréstimo", "consignado", "juros", "pix", 
+    "open finance", "golpe", "segurança digital"
 ]
 
 # ==========================================
