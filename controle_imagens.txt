@@ -7,3 +7,4 @@
 2026-02-28|financas|https://images.pexels.com/photos/30576160/pexels-photo-30576160.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-02-28|mercado|https://images.pexels.com/photos/7876503/pexels-photo-7876503.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-02-28|financas|https://images.pexels.com/photos/6693654/pexels-photo-6693654.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-02-28|mercado|https://images.pexels.com/photos/6770610/pexels-photo-6770610.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
