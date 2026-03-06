@@ -47,6 +47,12 @@ PALAVRAS_FINANCAS = [
     "open finance", "golpe", "segurança digital"
 ]
 
+PALAVRAS_EXCLUIR = [
+    "anac", "avião", "voo", "passagem aérea", "aeroporto", "passageiro",
+    "futebol", "gol", "partida", "campeonato", "polícia", "crime", 
+    "preso", "acidente", "trânsito", "morte", "vítima"
+]
+
 # ==========================================
 # BLOCO FIXO FINAL -  ASSINATURA
 # ==========================================
