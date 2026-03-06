@@ -103,6 +103,11 @@ def registrar_link_publicado(link):
 def verificar_assunto(titulo, texto):
     conteudo = f"{titulo} {texto}".lower()
 
+    # NOVA TRAVA DE SEGURANÇA
+    from configuracoes import PALAVRAS_EXCLUIR
+    if any(p in conteudo for p in PALAVRAS_EXCLUIR):
+        return "excluir" # Faz o robô pular esta notícia
+
     if any(p in conteudo for p in PALAVRAS_MERCADO):
         return "mercado"
 
