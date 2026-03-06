@@ -1,65 +1,88 @@
 # -*- coding: utf-8 -*-
 
-import os
-from google import genai
+def formatar_texto(texto, titulo_principal):
+    """
+    Processa o corpo do texto: H2 para subtítulos e P para parágrafos.
+    Remove repetições do título principal dentro do corpo do texto.
+    """
+    if not texto:
+        return ""
+        
+    linhas = [l.strip() for l in texto.split("\n") if l.strip()]
+    html_final = ""
+    COR_MD = "rgb(7, 55, 99)"
+    titulo_norm = titulo_principal.strip().lower()
 
+    for linha in linhas:
+        linha_limpa = linha.strip("#* ").strip()
+        
+        # Pula a linha se for repetição do título (limpeza inteligente)
+        if linha_limpa.lower() == titulo_norm:
+            continue
 
-class GeminiEngine:
+        # Ordem 5: Subtítulo H2 - Arial 20, Bold, Esquerda, Cor MD, Maiúsculas
+        # Aumentamos a precisão para detectar subtítulos reais
+        if linha.startswith("#") or (len(linha_limpa.split()) <= 15 and not linha_limpa.endswith(".")):
+            html_final += f"""
+            <h2 style="text-align:left !important; font-family:Arial !important; color:{COR_MD} !important; 
+                       font-size:20px !important; font-weight:bold !important; text-transform:uppercase !important; 
+                       margin-top:25px !important; margin-bottom:10px !important; display:block !important;">
+                {linha_limpa}
+            </h2>
+            """
+        else:
+            # Ordem 6: Texto - Fonte 18, Justificado, Cor MD
+            html_final += f"""
+            <p style="text-align:justify !important; font-family:Arial !important; color:{COR_MD} !important; 
+                      font-size:18px !important; line-height:1.7 !important; margin-bottom:15px !important;">
+                {linha_limpa}
+            </p>
+            """
+    return html_final
 
-    def __init__(self):
-        api_key = os.getenv("GEMINI_API_KEY")
-        self.client = genai.Client(api_key=api_key)
+def obter_esqueleto_html(dados):
+    """
+    Gera o HTML final. 
+    A Ordem 2 (Título) é cumprida via CSS injetado para formatar o título nativo do Blogger.
+    """
+    titulo = dados.get("titulo", "").strip()
+    imagem = dados.get("imagem", "").strip()
+    texto_bruto = dados.get("texto_completo", "")
+    assinatura = dados.get("assinatura", "")
 
-    def gerar_analise_economica(self, titulo, resumo, categoria):
+    # Chamada atualizada passando o título para evitar duplicação
+    conteudo_formatado = formatar_texto(texto_bruto, titulo)
+    COR_MD = "rgb(7, 55, 99)"
 
-        prompt = f"""
-Atue como um Economista Sênior (PhD) com foco em análise de dados e estratégia macroeconômica.
+    return f"""
+<style>
+    /* Ordem 2: Formata o título externo do Blogger (caixa de título) */
+    h1.post-title, h1.entry-title, h2.post-title, h3.post-title, .post-title {{
+        text-align:center !important; 
+        font-family:Arial, sans-serif !important; 
+        font-size:28px !important; 
+        font-weight:bold !important; 
+        color:{COR_MD} !important; 
+        text-transform:uppercase !important;
+        margin-bottom:20px !important;
+        margin-top:10px !important;
+        display: block !important;
+    }}
+</style>
 
-Objetivo: Realize uma varredura nos principais portais de notícias e bancos de dados financeiros
-(como Bloomberg, Reuters, Financial Times, Valor Econômico e sites de Bancos Centrais) para extrair 
-os fatos mais relevantes das últimas 24 horas.
+<div style="max-width:900px !important; margin:auto !important; font-family:Arial, sans-serif !important;">
 
-Informações base:
+    <div style="text-align:center !important; margin-bottom:25px !important;">
+        <img src="{imagem}" style="width:100% !important; height:auto !important; display:block !important; margin:auto !important; border-radius:8px !important;">
+    </div>
 
-Título da resenha: {titulo}
+    <div class="conteudo-post">
+        {conteudo_formatado}
+    </div>
 
-Resumo da resenha:
-{resumo}
+    <div style="margin-top:40px !important; padding-top:20px !important; border-top:1px solid #eee !important; color:{COR_MD} !important; font-size:15px !important; font-style:italic !important;">
+        {assinatura}
+    </div>
 
-Categoria: {categoria}
-
-Diretrizes Obrigatórias:
-
-Tom e Estilo: Imparcial, técnico e analítico. Use linguagem clara, objetiva e evite adjetivos desnecessários ou termos sensacionalistas.
-
-Extensão: Mínimo de 700 palavras. Desenvolva os parágrafos com profundidade.
-
-Originalidade: O texto deve ser inédito, processando as informações e reescrevendo-as com uma narrativa própria (sem plágio).
-
-Isenção: Proibido emitir opinião pessoal ou usar primeira pessoa. Se houver controvérsias, apresente os dois lados de forma equilibrada.
-
-Estrutura do Texto:
-
-Título: Chamativo, porém informativo e sóbrio.
-
-Lide (Lead): O primeiro parágrafo deve responder: Quem? O quê? Onde? Quando? Por quê? e Como?
-
-Subtítulos: Utilize pelo menos dois subtítulos para organizar a progressão temática do texto.
-
-Corpo: Desenvolva os fatos de forma cronológica ou por relevância de impacto.
-
-Conclusão Analítica: Encerre com uma análise técnica sobre as implicações futuras ou o desdobramento esperado dos fatos, sem cair no opinativo subjetivo.
-
-Importante:
-- Não escreva explicações externas.
-- Não inclua observações adicionais.
-- Entregue apenas o texto final já estruturado.
+</div>
 """
-
-
-        response = self.client.models.generate_content(
-            model="models/gemini-2.5-flash",
-            contents=prompt
-        )
-
-        return response.text.strip()
