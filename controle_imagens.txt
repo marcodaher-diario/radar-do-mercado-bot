@@ -30,3 +30,4 @@
 2026-03-07|mercado|https://images.pexels.com/photos/7807839/pexels-photo-7807839.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-03-07|mercado|https://images.pexels.com/photos/7267608/pexels-photo-7267608.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-03-07|financas|https://images.pexels.com/photos/5980864/pexels-photo-5980864.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-03-07|mercado|https://images.pexels.com/photos/5561920/pexels-photo-5561920.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
