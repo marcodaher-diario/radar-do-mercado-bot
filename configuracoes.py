@@ -1,8 +1,44 @@
 # ==========================================
-# CONFIGURAÇÕES GERAIS DO BLOG
+    # IDENTIFICADOR DO BLOG
 # ==========================================
 
 BLOG_ID = "1114800135976341823"
+
+# ==========================================
+# CONFIGURAÇÃO DE CONTROLE
+# ==========================================
+
+ARQUIVO_CONTROLE_AGENDAMENTO = "controle_agendamentos.txt"
+ARQUIVO_CONTROLE_TEMAS = "controle_temas_usados.txt"
+ARQUIVO_CONTROLE_IMAGENS = "controle_imagens.txt"
+
+DIAS_BLOQUEIO_TEMA = 20
+DIAS_BLOQUEIO_IMAGEM = 30
+
+# ==========================================
+# PARAMETROS DE REDAÇÃO
+# ==========================================
+
+MIN_PALAVRAS = 600
+MAX_PALAVRAS = 800
+
+# ==========================================
+# CATEGORIAS EDITORIAIS
+# ==========================================
+
+CATEGORIAS_EDITORIAIS = [
+    "emagrecimento saudável",
+    "metabolismo",
+    "nutrição",
+    "exercícios",
+    "vida saudável",
+    "receitas funcionais",
+    "novidades e técnicas atuais"
+]
+
+# ==========================================
+# FONTES DE PESQUISA
+# ==========================================
 
 RSS_FEEDS = [
     "https://www.infomoney.com.br/feed/",
