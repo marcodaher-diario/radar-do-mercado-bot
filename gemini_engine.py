@@ -5,7 +5,7 @@ import re
 import time
 from google import genai
 from google.api_core import exceptions
-from configuracoes import MODELO_GEMINI, MIN_PALAVRAS, MAX_PALAVRAS
+from configuracoes import MIN_PALAVRAS, MAX_PALAVRAS
 
 class GeminiEngine:
 
