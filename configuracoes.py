@@ -1,5 +1,5 @@
 # ==========================================
-    # IDENTIFICADOR DO BLOG
+# IDENTIFICADOR DO BLOG
 # ==========================================
 
 BLOG_ID = "1114800135976341823"
@@ -27,13 +27,13 @@ MAX_PALAVRAS = 800
 # ==========================================
 
 CATEGORIAS_EDITORIAIS = [
-    "emagrecimento saudável",
-    "metabolismo",
-    "nutrição",
-    "exercícios",
-    "vida saudável",
-    "receitas funcionais",
-    "novidades e técnicas atuais"
+    "Análise de Mercado",
+    "Economia e Política",
+    "Investimentos e Bolsa",
+    "Educação Financeira",
+    "Dividendos e Renda Fixa",
+    "Cenário Global",
+    "Negócios e Empresas"
 ]
 
 # ==========================================
