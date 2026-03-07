@@ -58,7 +58,7 @@ def obter_esqueleto_html(dados):
 <style>
     /* Ordem 2: Formata o título externo do Blogger (h1, h2 ou h3) */
     h1.post-title, h1.entry-title, h2.post-title, h3.post-title, .post-title, .entry-header,
-    h3.post-title a, .post-title a {{
+    h3.post-title .entry-title, h3.post-title a, .post-title a {{
         text-align:center !important; 
         font-family:Arial, sans-serif !important; 
         font-size:28px !important; 
