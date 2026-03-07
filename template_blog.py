@@ -5,7 +5,7 @@ def formatar_texto(texto, titulo_principal):
     Processa o corpo do texto: H2 para subtítulos e P para parágrafos.
     Remove repetições do título principal dentro do corpo do texto.
     """
-    if not texto:
+    if texto is None:
         return ""
         
     linhas = [l.strip() for l in texto.split("\n") if l.strip()]
