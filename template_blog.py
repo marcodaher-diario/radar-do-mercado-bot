@@ -54,11 +54,14 @@ def obter_esqueleto_html(dados):
 
     # O CSS abaixo captura os seletores mais comuns de títulos do Blogger
     return f"""
-
 <style>
     /* Ordem 2: Formata o título externo do Blogger (h1, h2 ou h3) */
-    h1.post-title, h1.entry-title, h2.post-title, h3.post-title, .post-title, .entry-header,
-    h3.post-title .entry-title, h3.post-title a, .post-title a {{
+    /* Seletores universais corrigidos para capturar títulos com ou sem links */
+    h1.post-title, h2.post-title, h3.post-title, 
+    h1.entry-title, h2.entry-title, h3.entry-title,
+    .post-title, .entry-header, .post-header,
+    h1.post-title a, h2.post-title a, h3.post-title a,
+    .post-title a, .entry-title a {{
         text-align:center !important; 
         font-family:Arial, sans-serif !important; 
         font-size:28px !important; 
@@ -68,7 +71,7 @@ def obter_esqueleto_html(dados):
         margin-bottom:20px !important;
         margin-top:10px !important;
         display: block !important;
-        text-decoration: none !important; /* Remove o sublinhado do link */
+        text-decoration: none !important;
     }}
 </style>
 
@@ -78,7 +81,7 @@ def obter_esqueleto_html(dados):
         <img src="{imagem}" alt="{titulo}" style="width:100% !important; height:auto !important; aspect-ratio:16/9 !important; object-fit:cover !important; border-radius:8px !important; display:block !important; margin:auto !important;">
     </div>
 
-    <div>
+    <div class="conteudo-post">
         {conteudo_formatado}
     </div>
 
