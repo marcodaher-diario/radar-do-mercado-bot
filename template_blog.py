@@ -59,9 +59,7 @@ def obter_esqueleto_html(dados):
     /* Seletores universais corrigidos para capturar títulos com ou sem links */
     h1.post-title, h2.post-title, h3.post-title, 
     h1.entry-title, h2.entry-title, h3.entry-title,
-    .post-title, .entry-header, .post-header,
-    h1.post-title a, h2.post-title a, h3.post-title a,
-    .post-title a, .entry-title a {{
+    .post-title, .entry-header, .post-header {{
         text-align:center !important; 
         font-family:Arial, sans-serif !important; 
         font-size:28px !important; 
@@ -70,8 +68,6 @@ def obter_esqueleto_html(dados):
         text-transform:uppercase !important;
         margin-bottom:20px !important;
         margin-top:10px !important;
-        display: block !important;
-        text-decoration: none !important;
     }}
 </style>
 
