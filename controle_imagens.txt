@@ -41,3 +41,4 @@
 2026-03-10|financas|https://images.pexels.com/photos/8183466/pexels-photo-8183466.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-03-11|mercado|https://marcodaher-diario.github.io/radar-do-mercado-bot/assets/mercado/mercado_01.jpg
 2026-03-11|investimentos|https://images.pexels.com/photos/6347705/pexels-photo-6347705.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-03-11|financas|https://images.pexels.com/photos/10149608/pexels-photo-10149608.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
