@@ -400,6 +400,10 @@ if __name__ == "__main__":
 
     html = obter_esqueleto_html(dados)
 
+    print("TAMANHO HTML:", len(html))
+    print("TAGS:", tags)
+    print("IMAGEM:", imagem_final)
+
     service = Credentials.from_authorized_user_file("token.json")
     service = build("blogger", "v3", credentials=service)
 
