@@ -45,9 +45,12 @@ def obter_esqueleto_html(dados):
     A Ordem 2 (Título) é cumprida via CSS injetado para formatar o título nativo do Blogger.
     """
     titulo = dados.get("titulo", "").strip()
-    imagem = dados.get("imagem", "").strip()
+    imagem = (dados.get("imagem") or "").strip()
     texto_bruto = dados.get("texto_completo", "")
     assinatura = dados.get("assinatura", "")
+
+    if not imagem:
+    imagem = "https://via.placeholder.com/1280x720?text=Radar+do+Mercado"
 
     conteudo_formatado = formatar_texto(texto_bruto, titulo)
     COR_MD = "rgb(7, 55, 99)"
