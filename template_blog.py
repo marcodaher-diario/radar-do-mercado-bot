@@ -50,7 +50,7 @@ def obter_esqueleto_html(dados):
     assinatura = dados.get("assinatura", "")
 
     if not imagem:
-    imagem = "https://via.placeholder.com/1280x720?text=Radar+do+Mercado"
+        imagem = "https://via.placeholder.com/1280x720?text=Radar+do+Mercado"
 
     conteudo_formatado = formatar_texto(texto_bruto, titulo)
     COR_MD = "rgb(7, 55, 99)"
