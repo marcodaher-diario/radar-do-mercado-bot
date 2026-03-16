@@ -51,3 +51,4 @@
 2026-03-14|mercado|https://images.pexels.com/photos/5562084/pexels-photo-5562084.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-03-15|mercado|https://images.pexels.com/photos/27288569/pexels-photo-27288569.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-03-15|investimentos|https://images.pexels.com/photos/16886249/pexels-photo-16886249.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-03-16|investimentos|https://images.pexels.com/photos/8919573/pexels-photo-8919573.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
