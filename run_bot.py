@@ -32,7 +32,7 @@ AGENDA_POSTAGENS = {
     "18:00": "financas"
 }
 
-JANELA_MINUTOS = 59
+JANELA_MINUTOS = 60
 ARQUIVO_CONTROLE_DIARIO = "controle_diario.txt"
 ARQUIVO_POSTS_PUBLICADOS = "posts_publicados.txt"
 
