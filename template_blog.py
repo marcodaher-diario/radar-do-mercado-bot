@@ -1,91 +1,74 @@
 # -*- coding: utf-8 -*-
+import re
 
-def formatar_texto(texto, titulo_principal):
-    """
-    Processa o corpo do texto: H2 para subtítulos e P para parágrafos.
-    Remove repetições do título principal dentro do corpo do texto.
-    """
-    if texto is None:
-        return ""
-        
-    linhas = [l.strip() for l in texto.split("\n") if l.strip()]
-    html_final = ""
-    COR_MD = "rgb(7, 55, 99)"
+def formatar_conteudo_otimizado(texto_bruto, titulo_principal):
+    if not texto_bruto: return ""
+    
+    # Processamento em lote para ser mais rápido e limpo
+    linhas = [l.strip() for l in texto_bruto.split("\n") if l.strip()]
+    html_final = []
     titulo_norm = titulo_principal.strip().lower()
+    lista_aberta = False
 
     for linha in linhas:
-        linha_limpa = linha.strip("#* ").strip()
+        # 1. Negritos Simples (Ocupa menos bytes que estilos inline)
+        l_proc = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", linha)
+        l_limpa = l_proc.strip("#* ").strip()
         
-        # Pula a linha se for repetição do título (limpeza inteligente)
-        if linha_limpa.lower() == titulo_norm:
+        if l_limpa.lower() == titulo_norm or not l_limpa:
             continue
 
-        # Ordem 5: Subtítulo H2 - Arial 20, Bold, Esquerda, Cor MD, Maiúsculas
-        if linha.startswith("#") or (len(linha_limpa.split()) <= 15 and not linha_limpa.endswith(".")):
-            html_final += f"""
-            <h2 style="text-align:left !important; font-family:Arial !important; color:{COR_MD} !important; 
-                       font-size:20px !important; font-weight:bold !important; text-transform:uppercase !important; 
-                       margin-top:25px !important; margin-bottom:10px !important;">
-                {linha_limpa}
-            </h2>
-            """
+        # 2. Listas (Compactas)
+        if linha.startswith(("- ", "* ")) or re.match(r"^\d+\.", linha):
+            if not lista_aberta:
+                html_final.append('<ul class="lst">')
+                lista_aberta = True
+            item = re.sub(r"^[-*\d. ]+", "", l_limpa)
+            html_final.append(f'<li>{item}</li>')
+            continue
         else:
-            # Ordem 6: Texto - Fonte 18, Justificado, Cor MD
-            html_final += f"""
-            <p style="text-align:justify !important; font-family:Arial !important; color:{COR_MD} !important; 
-                      font-size:18px !important; line-height:1.6 !important; margin-bottom:15px !important;">
-                {linha_limpa}
-            </p>
-            """
-    return html_final
+            if lista_aberta:
+                html_final.append('</ul>')
+                lista_aberta = False
+
+        # 3. Identificação de H2 vs P (Nomes de classe curtos para economizar bytes)
+        palavras = re.sub(r"<.*?>", "", l_limpa).split()
+        is_h2 = len(palavras) <= 20 and not l_limpa.endswith((".", ":")) and l_limpa[0].isupper()
+
+        if is_h2:
+            html_final.append(f'<h2 class="sub">{l_limpa}</h2>')
+        else:
+            html_final.append(f'<p class="txt">{l_limpa}</p>')
+
+    if lista_aberta: html_final.append('</ul>')
+    return "\n".join(html_final)
 
 def obter_esqueleto_html(dados):
-    """
-    Gera o HTML final. 
-    A Ordem 2 (Título) é cumprida via CSS injetado para formatar o título nativo do Blogger.
-    """
-    titulo = dados.get("titulo", "").strip()
-    imagem = (dados.get("imagem") or "").strip()
-    texto_bruto = dados.get("texto_completo", "")
-    assinatura = dados.get("assinatura", "")
+    # Pega os dados e limpa
+    t = dados.get("titulo", "").strip()
+    img = dados.get("imagem", "").strip()
+    txt = dados.get("texto_completo", "")
+    ass = dados.get("assinatura", "")
+    
+    cor = "rgb(7,55,99)"
+    conteudo = formatar_conteudo_otimizado(txt, t)
 
-    if not imagem:
-        imagem = "https://via.placeholder.com/1280x720?text=Radar+do+Mercado"
-
-    conteudo_formatado = formatar_texto(texto_bruto, titulo)
-    COR_MD = "rgb(7, 55, 99)"
-
-    # O CSS abaixo captura os seletores mais comuns de títulos do Blogger
+    # Estilo concentrado no topo: o Blogger lê uma vez e aplica a tudo
     return f"""
 <style>
-    /* Ordem 2: Formata o título externo do Blogger (h1, h2 ou h3) */
-    h1.post-title, h2.post-title, h3.post-title, 
-    h1.entry-title, h2.entry-title, h3.entry-title,
-    .post-title, .entry-header, .post-header {{
-        text-align:center !important; 
-        font-family:Arial, sans-serif !important; 
-        font-size:28px !important; 
-        font-weight:bold !important; 
-        color:{COR_MD} !important; 
-        text-transform:uppercase !important;
-        margin-bottom:20px !important;
-        margin-top:10px !important;
-    }}
+.post-corpo {{ max-width:900px; margin:auto; font-family: 'Open Sans', Arial, sans-serif; color:{cor}; }}
+.post-title, .entry-title {{ text-align:center!important; font-size:28px!important; text-transform:uppercase!important; font-weight:bold!important; margin:10px 0 25px 0!important; color:{cor}!important; }}
+.img-c {{ text-align:center; margin-bottom:25px; }}
+.img-p {{ width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:8px; }}
+.sub {{ font-size:22px!important; text-transform:uppercase!important; font-weight:bold!important; margin-top:25px!important; margin-bottom:10px!important; text-align:left!important; }}
+.txt {{ font-size:18px!important; text-align:justify!important; line-height:1.6!important; margin-bottom:15px!important; }}
+.lst {{ margin-bottom:20px; padding-left:25px; }}
+.lst li {{ font-size:18px!important; margin-bottom:8px; }}
 </style>
 
-<div style="max-width:900px !important; margin:auto !important; font-family:Arial, sans-serif !important;">
-
-    <div style="text-align:center !important; margin-bottom:25px !important;">
-        <img src="{imagem}" alt="{titulo}" style="width:100% !important; height:auto !important; aspect-ratio:16/9 !important; object-fit:cover !important; border-radius:8px !important; display:block !important; margin:auto !important;">
-    </div>
-
-    <div class="conteudo-post">
-        {conteudo_formatado}
-    </div>
-
-    <div style="margin-top:40px !important; padding-top:20px !important; border-top:1px solid #eee !important; color:{COR_MD} !important;">
-        {assinatura}
-    </div>
-
+<div class="post-corpo">
+    <div class="img-c"><img src="{img}" alt="{t}" class="img-p" loading="lazy"></div>
+    <div class="artigo">{conteudo}</div>
+    <div style="margin-top:30px; border-top:1px solid #eee; padding-top:20px;">{ass}</div>
 </div>
 """
