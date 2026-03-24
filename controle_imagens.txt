@@ -69,3 +69,4 @@
 2026-03-23|investimentos|https://marcodaher-diario.github.io/radar-do-mercado-bot/assets/investimentos/investimentos_06.jpg
 2026-03-23|financas|https://images.pexels.com/photos/4386150/pexels-photo-4386150.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-03-24|investimentos|https://marcodaher-diario.github.io/radar-do-mercado-bot/assets/investimentos/Investimentos_01.jpg
+2026-03-24|financas|https://images.pexels.com/photos/5849573/pexels-photo-5849573.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
