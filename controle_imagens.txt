@@ -107,3 +107,4 @@
 2026-04-13|financas|https://images.pexels.com/photos/31853838/pexels-photo-31853838.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-04-14|investimentos|https://images.pexels.com/photos/27797867/pexels-photo-27797867.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-04-14|financas|https://images.pexels.com/photos/8530327/pexels-photo-8530327.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-04-15|financas|https://images.pexels.com/photos/27797871/pexels-photo-27797871.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
