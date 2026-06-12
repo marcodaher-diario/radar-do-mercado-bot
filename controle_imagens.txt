@@ -171,3 +171,4 @@
 2026-06-08|investimentos|https://images.pexels.com/photos/31853838/pexels-photo-31853838.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-06-10|investimentos|https://images.pexels.com/photos/36628777/pexels-photo-36628777.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-06-11|investimentos|https://images.pexels.com/photos/7873554/pexels-photo-7873554.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-06-12|investimentos|https://marcodaher-diario.github.io/radar-do-mercado-bot/assets/investimentos/Investimentos_03.jpg
