@@ -214,3 +214,4 @@
 2026-08-18|investimentos|https://images.pexels.com/photos/36628777/pexels-photo-36628777.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-08-19|mercado|https://images.pexels.com/photos/16902140/pexels-photo-16902140.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-08-19|investimentos|https://images.pexels.com/photos/38892299/pexels-photo-38892299.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-08-20|mercado|https://images.pexels.com/photos/38892300/pexels-photo-38892300.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
