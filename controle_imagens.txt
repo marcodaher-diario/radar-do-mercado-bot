@@ -220,3 +220,4 @@
 2026-10-11|mercado|https://images.pexels.com/photos/39662688/pexels-photo-39662688.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-10-11|investimentos|https://images.pexels.com/photos/31853838/pexels-photo-31853838.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
 2026-10-11|investimentos|https://images.pexels.com/photos/36628777/pexels-photo-36628777.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
+2026-10-14|investimentos|https://images.pexels.com/photos/5849592/pexels-photo-5849592.jpeg?auto=compress&cs=tinysrgb&h=650&w=940
